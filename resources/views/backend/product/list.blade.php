@@ -24,6 +24,7 @@
                    @include('_message') 
                 <a href="{{ url('admin/product/add') }}" class="btn btn-primary" title="Add New Product"><i class="fa fa-plus"></i>&nbsp;&nbsp;<span class="bold">Add New Product</span></a>  
                  <a href="{{ url('admin/product/import') }}" class="btn btn-primary" title="Import Excel"><i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">Import Excel</span></a> 
+                 <a href="{{ url('admin/product/export') }}" class="btn btn-primary" title="Import Excel"><i class="fa fa-download"></i>&nbsp;&nbsp;<span class="bold">Export Excel</span></a> 
                 {{-- End --}}
 
                     {{-- Search Box Start --}}
@@ -39,8 +40,8 @@
                            <input type="text" value="{{ Request()->idsss }}" class="form-control" placeholder="ID" name="idsss">
                         </div>
                         <div class="col-md-3">
-                           <label>Sheet No</label>
-                           <input type="number" class="form-control" value="{{ Request()->sheet_no }}" placeholder="Sheet No" name="sheet_no">
+                           <label>Tag Number</label>
+                           <input type="number" class="form-control" value="{{ Request()->sheet_no }}" placeholder="Tag Number" name="sheet_no">
                         </div>
                         <div class="col-md-2">
                            <label>Date</label>
@@ -86,7 +87,7 @@
                              <th>#</th>
                               <th>ID</th>
                              {{--  <th>Name</th> --}}
-                              <th>Sheet No</th>
+                              <th>Tag Number</th>
                               <th>Date</th>
                               <th>Location</th>
                               <th>Sub Location</th>

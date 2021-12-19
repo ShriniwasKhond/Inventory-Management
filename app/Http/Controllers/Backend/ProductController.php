@@ -7,7 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Product;
 use App\Imports\ProductImport;
-
+use App\Models\ProductHistory;
+use App\Exports\ProductHistoryExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Hash;
 use DB;
@@ -56,6 +57,9 @@ class ProductController extends Controller
 
     public function product_store_import(Request $request) 
     {
+            $request->validate([
+                'file'=> 'required|mimes:xlsx, csv, xls'
+             ]);
 
         $file = $request->file('file')->store('import');
 
@@ -116,7 +120,7 @@ class ProductController extends Controller
     }
 
     public function product_create(Request $request){
-           $data['meta_title'] = 'Add Product';
+        $data['meta_title'] = 'Add Product';
        return view('backend.product.add', $data);
     }
 
@@ -132,4 +136,10 @@ class ProductController extends Controller
       $insert_r->save();
       return redirect('admin/product')->with('success', 'Product successfully insert.');
     }
+
+    public function product_excel_export(){
+
+        return Excel::download(new ProductHistoryExport(), 'ProductData.xlsx');
+    }
+
 }

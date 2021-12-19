@@ -59,7 +59,7 @@ Route::group(['middleware' => 'admin'], function(){
         Route::post('import', [ProductController::class, 'product_store_import']);
         Route::get('delete_product_multi', [ProductController::class, 'delete_product_multi']);
            
-        
+        Route::get('export', [ProductController::class, 'product_excel_export']);
     });    
     //product end
 

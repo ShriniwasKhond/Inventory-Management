@@ -75,7 +75,7 @@
                               <th>ID</th>
                               <th>Name</th>
                               <th>Email ID</th>
-                              <th>Password</th>
+                               <th>Password</th> 
                               <th>Action</th>
                           </tr>
                       </thead>
@@ -85,8 +85,9 @@
                               <td>{{ $value->id }}</td>
                               <td>{{ $value->name }}</td>
                               <td>{{ $value->email }}</td>                        
-                              <td>{{ $value->password_show }}</td>                        
+                              <td>{{ $value->password_show }}</td>                         
                               <td>
+                                {{-- <a class="btn btn-primary btn-rounded btn-sm" id="viewUser" data-toggle="modal" data-target="#modal-id" data-id="{{ $value->password_show }}"><span class="fa fa-eye"></span></a> --}}
 
                                  <a href="{{ url('admin/user/edit/'.$value->id) }}" class="btn btn-success btn-rounded btn-sm"><span class="fa fa-pencil"></span></a> 
                         
@@ -119,9 +120,35 @@
         </div>
 
 
+        <!-- Modal -->
+<div class="modal fade" id="modal-id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">User Password</h5>
+        </div>
+        <div class="modal-body">
+        {{--   <h5>User Password</h5> --}}
+          <h4 style="text-align: center;" class="pass"></h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 @endsection
   @section('script')
   <script type="text/javascript">
-  
+        $('body').on('click', '#viewUser', function(event) {
+          event.preventDefault();
+          var id = $(this).data('id');
+          $('.modal-body').find('.pass').html(id);
+       
+      });
+
   </script>
 @endsection

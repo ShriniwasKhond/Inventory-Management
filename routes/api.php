@@ -23,6 +23,8 @@ Route::post('app_get_asset_details', [APIController::class, 'app_get_asset_detai
 
 Route::post('app_update_quantity', [APIController::class, 'app_update_quantity']);
 
+Route::post('app_user_update_quantity_history', [APIController::class, 'app_user_update_quantity_history']);
+
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });

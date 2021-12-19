@@ -33,10 +33,10 @@
                              <div class="panel-body">
                                
                                <div class="form-group">
-                                  <label class="col-md-3 col-xs-12 control-label">Sheet No <span style="color:red"> *</span></label>
+                                  <label class="col-md-3 col-xs-12 control-label">Tag Number <span style="color:red"> *</span></label>
                                    <div class="col-md-7 col-xs-12">
                                       <div class="">
-                                         <input name="sheet_no" maxlength="50" value="{{ $getrecord->sheet_no }}" placeholder="Sheet No" type="number" required class="form-control" />
+                                         <input name="sheet_no" maxlength="50" value="{{ $getrecord->sheet_no }}" placeholder="Tag Number" type="number" required class="form-control" />
                                          <span style="color:red">{{  $errors->first('sheet_no') }}</span>
                                       </div>
                                    </div>
