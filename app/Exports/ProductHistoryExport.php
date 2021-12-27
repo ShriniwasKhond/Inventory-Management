@@ -15,6 +15,7 @@ class ProductHistoryExport implements WithHeadings,FromCollection
             'UserName',
             'Asset Number',
             'Asset Name',
+            'Main Category',
             'Original Qty',
             'Updated Qty',
         ];

@@ -26,12 +26,16 @@ class ProductController extends Controller
             $getrecord = $getrecord->where('product.id', '=', $request->idsss);
         }
 
-        if ($request->product_date) {
-            $getrecord = $getrecord->where('product.product_date', 'like', '%' . $request->product_date . '%');
-        }
+        // if ($request->product_date) {
+        //     $getrecord = $getrecord->where('product.product_date', 'like', '%' . $request->product_date . '%');
+        // }
 
         if ($request->sheet_no) {
             $getrecord = $getrecord->where('product.sheet_no', 'like', '%' . $request->sheet_no . '%');
+        }
+
+         if ($request->item_code) {
+            $getrecord = $getrecord->where('product.item_code', 'like', '%' . $request->item_code . '%');
         }
         
         if ($request->location) {
@@ -82,11 +86,15 @@ class ProductController extends Controller
     public function product_update(Request $request, $id){
         $user_update = Product::get_single($id);
         $user_update->sheet_no = $request->sheet_no;
-        $user_update->product_date = $request->product_date;
-        $user_update->location = $request->location;
+        //$user_update->product_date = $request->product_date;
+        $user_update->location     = $request->location;
         $user_update->sub_location = $request->sub_location;
-        $user_update->asset = $request->asset;
-        $user_update->qty = $request->qty;
+        $user_update->item_code    = $request->item_code;
+        $user_update->asset        = $request->asset;
+        $user_update->main_category= $request->main_category;
+        $user_update->category     = $request->category;
+        $user_update->qty          = $request->qty;
+        $user_update->uom          = $request->uom;
         $user_update->save();
         return redirect('admin/product')->with('success', 'Product successfully update.');
     }
@@ -128,11 +136,15 @@ class ProductController extends Controller
       $insert_r                   = new Product;
       $insert_r->user_id          = Auth::user()->id;
       $insert_r->sheet_no         = trim($request->sheet_no);
-      $insert_r->product_date     = trim($request->product_date);
+     // $insert_r->product_date     = trim($request->product_date);
       $insert_r->location         = trim($request->location);
       $insert_r->sub_location     = trim($request->sub_location);
+      $insert_r->item_code        = trim($request->item_code);
       $insert_r->asset            = trim($request->asset);
+      $insert_r->main_category    = trim($request->main_category);
+      $insert_r->category         = trim($request->category);
       $insert_r->qty              = trim($request->qty);
+      $insert_r->uom              = trim($request->uom);
       $insert_r->save();
       return redirect('admin/product')->with('success', 'Product successfully insert.');
     }
@@ -140,6 +152,14 @@ class ProductController extends Controller
     public function product_excel_export(){
 
         return Excel::download(new ProductHistoryExport(), 'ProductData.xlsx');
+    }
+
+    public function product_all_delete(Request $request){
+      
+        Product::truncate();
+        ProductHistory::truncate();
+        
+        return redirect()->back()->with('error', 'Product all successfully deleted!');  
     }
 
 }

@@ -35,7 +35,7 @@
 
                   <div class="panel-body" style="overflow: auto;">
                     <form action="" method="get">
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                            <label>ID</label>
                            <input type="text" value="{{ Request()->idsss }}" class="form-control" placeholder="ID" name="idsss">
                         </div>
@@ -43,15 +43,19 @@
                            <label>Tag Number</label>
                            <input type="number" class="form-control" value="{{ Request()->sheet_no }}" placeholder="Tag Number" name="sheet_no">
                         </div>
-                        <div class="col-md-2">
+                       {{--  <div class="col-md-2">
                            <label>Date</label>
                            <input type="date" class="form-control" value="{{ Request()->product_date }}" placeholder="Date" name="product_date">
-                        </div>
-                    
-                       
+                        </div> --}}
+                         
                         <div class="col-md-3">
                            <label>Location</label>
                            <input type="text" class="form-control" value="{{ Request()->location }}" placeholder="Location" name="location">
+                        </div>
+
+                        <div class="col-md-3">
+                           <label>Date (Item Code)</label>
+                           <input type="text" class="form-control" value="{{ Request()->item_code }}" placeholder="Date (Item Code)" name="item_code">
                         </div>
 
                          <div class="col-md-2">
@@ -76,7 +80,12 @@
               <div class="panel panel-default">
                   <div class="panel-heading">
                       <h3 class="panel-title">Product List</h3>
-                      <a href="" class="btn btn-danger"  onclick="return confirm('Are you sure you want to delete?');" id="getDeleteURL" style="float: right;">Delete</a>
+                      
+
+
+                       <a href="{{ url('admin/product/all_delete') }}" onclick="return confirm('All data will be lost. Are you sure you want to continue?');" style="float: right;" class="btn btn-success" title="Delete All">Delete All</a>
+                        &nbsp;
+                       <a href="" class="btn btn-danger"  onclick="return confirm('Are you sure you want to delete?');" id="getDeleteURL" style="float: right;">Delete Selected</a>
                   </div>
                  
 
@@ -84,15 +93,20 @@
                   <table  class="table table-striped table-bordered table-hover">
                       <thead>
                           <tr>
+                             {{-- <th><input type="checkbox" id="chkCheckAll"></th> --}}
                              <th>#</th>
                               <th>ID</th>
                              {{--  <th>Name</th> --}}
                               <th>Tag Number</th>
-                              <th>Date</th>
+                              
                               <th>Location</th>
                               <th>Sub Location</th>
+                              <th>Item Code</th>
                               <th>Asset</th>
+                              <th>Main Category</th>
+                              <th>Sub Category</th>
                               <th>Qty</th>
+                              <th>UOM</th>
                               <th>Action</th>
                           </tr>
                       </thead>
@@ -101,17 +115,28 @@
                     @forelse($getrecord as $value)
                           <tr>
                               <td>
-                                  <input class="delete-all-option" value="{{ $value->id }}" type="checkbox" >
+                                  <input class="delete-all-option allselect" value="{{ $value->id }}" type="checkbox" >
                                 </td>
                               <td>{{ $value->id }}</td>
                              {{--  <td>{{ !empty($value->getUserName->name) ? $value->getUserName->name : '' }}</td> --}}
                               <td>{{ $value->sheet_no }}</td> 
-                              <td>{{ date('d-m-yy', strtotime($value->product_date)) }}</td>
+                             {{--  <td>{{ date('d-m-yy', strtotime($value->product_date)) }}</td> --}}
                               <td>{{ $value->location }}</td>
                               <td>{{ $value->sub_location }}</td>
+                              <td>{{ $value->item_code }}</td>
                               <td>{{ $value->asset }}</td>
-                              <td>{{ $value->qty }}</td>
+                              <td>
+                                @if($value->main_category == 'W')
+                                    Warehouse
+                                @elseif($value->main_category == 'S')
+                                     Store
+                                @else
 
+                                @endif
+                              </td>
+                              <td>{{ $value->category }}</td>
+                              <td>{{ $value->qty }}</td>
+                              <td>{{ $value->uom }}</td>
                               <td>
                                 
                                  <a href="{{ url('admin/product/edit/'.$value->id) }}" class="btn btn-success btn-rounded btn-sm"><span class="fa fa-pencil"></span></a> 
@@ -138,10 +163,10 @@
                           @endforelse
 
                           <tr>
-                          <th colspan="7"> Total Quantity</th>
+                          <th colspan="9"> Total Quantity</th>
                           <td>
-
-                          {{ $sum_tot_Qty}}
+                        <b>
+                          {{ $sum_tot_Qty}}</b>
                         </td>
 
                          </tr>
@@ -180,8 +205,13 @@
 
         var url = '{{ url('admin/product/delete_product_multi?id=') }}'+total;
         $('#getDeleteURL').attr('href',url);
-
-        
     });
+
+    $(function(e){
+        $("#chkCheckAll").click(function(){
+            $(".allselect").prop('checked', $(this).prop('checked'));
+        });
+     });
+
   </script>
 @endsection

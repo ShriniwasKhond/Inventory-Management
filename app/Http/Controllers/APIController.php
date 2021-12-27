@@ -52,34 +52,51 @@ class APIController extends Controller {
     
     // tag_number
     public function app_get_asset_details(Request $request){
+        if(!empty($request->tag_number) && !empty($request->main_category)){
+
         $getresultCount = Product::where('sheet_no', '=', $request->tag_number)->count();
-		if(!empty($getresultCount)){
+         $getresultCountMain = Product::where('main_category', '=', $request->main_category)->count();
+		if(!empty($getresultCount) && !empty($getresultCountMain)){
 		// $result = array();
 
-        $getresult = Product::where('sheet_no', '=', $request->tag_number)->get();
-
-        foreach ($getresult as $value) {
-            $data['table_id']     	= $value->id;
-			$data['tag_number']	= $value->sheet_no;
-            $data['date']	    = date('d-m-Y', strtotime($value->product_date));
-            $data['location']	= $value->location;
-            $data['sub_location']	= $value->sub_location;
-            $data['asset']	        = $value->asset;
-            $data['qty']	        = !empty($value->qty) ? $value->qty : '0';
-            $data['available_qty']	= !empty($value->available_qty) ? $value->available_qty : '0';
-            $data['status']          = $value->status;
-            // $result[] = $data;
+        $value = Product::where('sheet_no', '=', $request->tag_number)->where('main_category', '=', $request->main_category)->first();
+        if(!empty($value)){
+        // dd($request->main_category);
+        $data = array();
+                // foreach ($getresult as $value) {
+                    $data['table_id']     	= $value->id;
+        			$data['tag_number']	    = $value->sheet_no;
+                  //  $data['date']	        = date('d-m-Y', strtotime($value->product_date));
+                    $data['location']       = !empty($value->location) ? $value->location : '';
+                    $data['sub_location']   = !empty($value->sub_location) ? $value->sub_location : '';
+                    $data['date']           = !empty($value->item_code) ? $value->item_code : '';
+                    $data['asset']          = !empty($value->asset) ? $value->asset : '';
+                    $data['main_category']  = !empty($value->main_category) ? $value->main_category : '';
+                    $data['category']       = !empty($value->category) ? $value->category : '';
+                    $data['uom']            = !empty($value->uom) ? $value->uom : '';
+                    $data['qty']	        = !empty($value->qty) ? $value->qty : '0';
+                    $data['available_qty']	= !empty($value->available_qty) ? $value->available_qty : '0';
+                    $data['status']         = $value->status;
+                    // $result[] = $data;
+                // }
+                    $json['status'] = 1;
+        			$json['message'] = 'All data loaded successfully.';
+        	     	$json['result']  = $data;
+                    }else
+                {   
+                    $json['status'] = 0;
+                    $json['message'] = 'Record not found.';
+                }
+            }
+    		else
+    		{	
+    			$json['status'] = 0;
+    			$json['message'] = 'Record not found.';
+    		}
+        }else{
+            $json['status'] = 0;
+            $json['message'] = 'Parameter missing!'; 
         }
-            $json['status'] = 1;
-			$json['message'] = 'All data loaded successfully.';
-	     	$json['result']  = $data;
-        }
-		else
-		{	
-			$json['status'] = 0;
-			$json['message'] = 'Record not found.';
-		}
-
 		echo json_encode($json);
     }
 
@@ -91,9 +108,9 @@ class APIController extends Controller {
          $getresultCount = User::where('id', '=', $request->user_id)->count();
         if(!empty($getresultCount)){
 
-        if (!empty($request->tag_number) && !empty($request->available_qty) && !empty($request->status)) {
+        if (!empty($request->tag_number) && !empty($request->available_qty) && !empty($request->status) && !empty($request->main_category)) {
             //$update_record = Product::find($request->tag_number);
-            $update_record = Product::where('sheet_no', '=', $request->tag_number)->first();
+            $update_record = Product::where('sheet_no', '=', $request->tag_number)->where('main_category', '=', $request->main_category)->first();
             //if($update_record->qty >= $request->available_qty){
 
                 if(!empty($update_record)){
@@ -147,13 +164,17 @@ class APIController extends Controller {
 		$product 			    = Product::find($id);
 		$json['table_id']		= $product->id;
 		$json['tag_number'] 	= !empty($product->sheet_no) ? $product->sheet_no : '';
-        $json['date']	        = date('d-m-Y', strtotime($product->product_date));
+       // $json['date']	        = date('d-m-Y', strtotime($product->product_date));
 		$json['location'] 		= !empty($product->location) ? $product->location : '';
-        $json['sub_location']	= $product->sub_location;
-        $json['asset']		    = $product->asset;
+        $json['sub_location']   = !empty($product->sub_location) ? $product->sub_location : '';
+        $json['date']           = !empty($product->item_code) ? $product->item_code : '';
+        $json['asset']          = !empty($product->asset) ? $product->asset : '';
+        $json['main_category']  = !empty($product->main_category) ? $product->main_category : '';
+        $json['category']       = !empty($product->category) ? $product->category : '';
         $json['qty']		    = !empty($product->qty) ? $product->qty : '0';
+        $json['uom']            = !empty($product->uom) ? $product->uom : '';
         $json['available_qty']	= !empty($product->available_qty) ? $product->available_qty : '0';
-        $json['status']          = $product->status;
+        $json['status']         = $product->status;
 
         // $option_main = array();
 
@@ -182,14 +203,16 @@ class APIController extends Controller {
             $data['product_id']     = $value->product_id;
             $data['available_qty']  = !empty($value->available_qty) ? $value->available_qty : '0';
 
-            $data['sheet_no']  = !empty($value->getProductName->sheet_no) ? $value->getProductName->sheet_no : '';
-            $data['date']  = date('d-m-Y', strtotime($value->getProductName->product_date));
-
+            $data['tag_number']  = !empty($value->getProductName->sheet_no) ? $value->getProductName->sheet_no : '';
+            //$data['date']  = date('d-m-Y', strtotime($value->getProductName->product_date));
+            $data['date']  = !empty($value->getProductName->item_code) ? $value->getProductName->item_code : '';
             $data['location']  = !empty($value->getProductName->location) ? $value->getProductName->location : '';
             $data['sub_location']  = !empty($value->getProductName->sub_location) ? $value->getProductName->sub_location : '';
-             $data['asset']  = !empty($value->getProductName->asset) ? $value->getProductName->asset : '';
-            
+            $data['asset']  = !empty($value->getProductName->asset) ? $value->getProductName->asset : '';
+            $data['main_category']  = !empty($value->getProductName->main_category) ? $value->getProductName->main_category : '';
+            $data['category']  = !empty($value->getProductName->category) ? $value->getProductName->category : '';
             $data['qty']  = !empty($value->getProductName->qty) ? $value->getProductName->qty : '0';
+            $data['uom']  = !empty($value->getProductName->uom) ? $value->getProductName->uom : '';
             $data['status']  = !empty($value->getProductName->status) ? $value->getProductName->status : '';
 
             $result[] = $data;
