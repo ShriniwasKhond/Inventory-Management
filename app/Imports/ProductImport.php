@@ -45,28 +45,34 @@ class ProductImport implements
         foreach ($rows as $row) {
         // dd($row['date']);
         
-
+ // dd($row['uom']);
           // dd($productDate);
           // $productDate =  date('Y-m-d', strtotime($row['date']));
            // dd($productDate);
 
-           if(!empty($row['sheet_no']) && !empty($row['location']) && !empty($row['sub_location']) && !empty($row['asset']) && !empty($row['qty']) ){
+           if(!empty($row['tag_no']) && !empty($row['qty'])){
             
-            $data['product_date'] = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['date'])->format('Y-m-d');
+           // $data['product_date'] = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['date'])->format('Y-m-d');
 
-            $productDate  = !empty($data['product_date']) ? $data['product_date'] : '';
+//            $productDate  = !empty($data['product_date']) ? $data['product_date'] : '';
 
 
             $user = Product::create([
-                'user_id'     => Auth::user()->id,
-                'sheet_no' => !empty($row['sheet_no']) ? $row['sheet_no'] : '',
-                'product_date' => !empty($productDate) ? $productDate : '',
-                'location' => !empty($row['location']) ? $row['location'] : '',
+          
+                'user_id'      => Auth::user()->id,
+                'sheet_no'     => $row['tag_no'],
+  //            'product_date' => !empty($productDate) ? $productDate : '',
+                'location'     => !empty($row['location']) ? $row['location'] : '',
                 'sub_location' => !empty($row['sub_location']) ? $row['sub_location'] : '',
-                'asset' => !empty($row['asset']) ? $row['asset'] : '',
-                'qty' => !empty($row['qty']) ? $row['qty'] : '',
+                'item_code'    => !empty($row['date']) ? $row['date'] : '',
+                'asset'        => !empty($row['asset']) ? $row['asset'] : '',
+                'main_category'=> !empty($row['main_category']) ? $row['main_category'] : '',
+                'category'     => !empty($row['sub_category']) ? $row['sub_category'] : '',
+                'qty'          => $row['qty'],
+                'uom'          => !empty($row['uom']) ? $row['uom'] : '',
 
             ]);
+          
         }
     }
 

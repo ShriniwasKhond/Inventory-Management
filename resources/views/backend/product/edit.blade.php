@@ -42,7 +42,7 @@
                                    </div>
                                 </div>
 
-                                   <div class="form-group">
+                                {{--    <div class="form-group">
                                   <label class="col-md-3 col-xs-12 control-label">Date <span style="color:red"> *</span></label>
                                    <div class="col-md-7 col-xs-12">
                                       <div class="">
@@ -50,37 +50,81 @@
                                          <span style="color:red">{{  $errors->first('product_date') }}</span>
                                       </div>
                                    </div>
-                                </div>
+                                </div> --}}
 
                               <div class="form-group">
-                                  <label class="col-md-3 col-xs-12 control-label">Location <span style="color:red"> *</span></label>
+                                  <label class="col-md-3 col-xs-12 control-label">Location <span style="color:red"> </span></label>
                                    <div class="col-md-7 col-xs-12">
                                       <div class="">
-                                         <input name="location" maxlength="100" value="{{ $getrecord->location }}" placeholder="Location" type="text" required class="form-control" />
+                                         <input name="location" maxlength="100" value="{{ $getrecord->location }}" placeholder="Location" type="text" class="form-control" />
                                          <span style="color:red">{{  $errors->first('location') }}</span>
                                       </div>
                                    </div>
                                 </div>
                               
                                  <div class="form-group">
-                                  <label class="col-md-3 col-xs-12 control-label">Sub Location <span style="color:red"> *</span></label>
+                                  <label class="col-md-3 col-xs-12 control-label">Sub Location <span style="color:red"> </span></label>
                                    <div class="col-md-7 col-xs-12">
                                       <div class="">
-                                         <input name="sub_location" maxlength="100" value="{{ $getrecord->sub_location }}" placeholder="Sub Location" type="text" required class="form-control" />
+                                         <input name="sub_location" maxlength="100" value="{{ $getrecord->sub_location }}" placeholder="Sub Location" type="text" class="form-control" />
                                          <span style="color:red">{{  $errors->first('sub_location') }}</span>
                                       </div>
                                    </div>
                                 </div>
 
+                                    <div class="form-group">
+                                  <label class="col-md-3 col-xs-12 control-label">Item Code <span style="color:red"> </span></label>
+                                      <div class="col-md-7 col-xs-12">
+                                          <div class="">
+                                              <input name="item_code" value="{{ $getrecord->item_code }}" placeholder="Item Code" maxlength="100" type="text" class="form-control" />
+                                              <span style="color:red">{{  $errors->first('item_code') }}</span>
+                                          </div>
+                                      </div>
+                                  </div>
+
                                   <div class="form-group">
-                                  <label class="col-md-3 col-xs-12 control-label">Asset<span style="color:red"> *</span></label>
+                                  <label class="col-md-3 col-xs-12 control-label">Asset<span style="color:red"> </span></label>
                                    <div class="col-md-7 col-xs-12">
                                       <div class="">
-                                         <input name="asset" maxlength="250" value="{{ $getrecord->asset }}" placeholder="Asset" type="text" required class="form-control" />
+                                         <input name="asset" maxlength="250" value="{{ $getrecord->asset }}" placeholder="Asset" type="text" class="form-control" />
                                          <span style="color:red">{{  $errors->first('asset') }}</span>
                                       </div>
                                    </div>
                                 </div>
+
+
+                                <div class="form-group">
+                                  <label class="col-md-3 col-xs-12 control-label">Main Category <span style="color:red"> </span></label>
+                                      <div class="col-md-7 col-xs-12">
+                                          <div class="">
+                                             
+                                            <select class="form-control" name="main_category">
+                                              <option value="">Select Main Category</option>
+                                              <option {{ ($getrecord->main_category == 'W')?'selected':'' }} value="W">Warehouse</option>
+                                              <option {{ ($getrecord->main_category == 'S')?'selected':'' }} value="S">Store</option>
+                                            </select>
+                                              
+                                              <span style="color:red">{{  $errors->first('main_category') }}</span>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                <div class="form-group">
+                                  <label class="col-md-3 col-xs-12 control-label">Sub Category <span style="color:red"> </span></label>
+                                      <div class="col-md-7 col-xs-12">
+                                          <div class="">
+                                             
+                                            <select class="form-control" name="category">
+                                              <option value="">Select Sub Category</option>
+                                              <option {{ ($getrecord->category == 'A')?'selected':'' }} value="A">A</option>
+                                              <option {{ ($getrecord->category == 'B')?'selected':'' }} value="B">B</option>
+                                              <option {{ ($getrecord->category == 'C')?'selected':'' }} value="C">C</option>
+                                            </select>
+                                              
+                                              <span style="color:red">{{  $errors->first('category') }}</span>
+                                          </div>
+                                      </div>
+                                  </div>
 
                                    <div class="form-group">
                                   <label class="col-md-3 col-xs-12 control-label">Qty<span style="color:red"> *</span></label>
@@ -91,6 +135,16 @@
                                       </div>
                                    </div>
                                 </div>
+
+                                   <div class="form-group">
+                                  <label class="col-md-3 col-xs-12 control-label">UOM <span style="color:red"> </span></label>
+                                      <div class="col-md-7 col-xs-12">
+                                          <div class="">
+                                              <input name="uom" value="{{ $getrecord->uom }}" placeholder="UOM" maxlength="250" type="text" class="form-control" />
+                                              <span style="color:red">{{  $errors->first('uom') }}</span>
+                                          </div>
+                                      </div>
+                                  </div>
                             
                               </div>
                              <div class="panel-footer">
