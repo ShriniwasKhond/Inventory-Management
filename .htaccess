@@ -13,6 +13,9 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
+    AddType image/jpeg jpeg jpg jpe png
+    AddType text/css .css
+    AddType text/javascript .js
 
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -23,3 +26,5 @@
     Order allow,deny
     Deny from all
 </Files>
+
+

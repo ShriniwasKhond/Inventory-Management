@@ -34,7 +34,11 @@
         }
     },
     "scripts": {
-        "post-autoload-dump": [
+        "post-install-cmd": [
+          "chgrp -R www-data storage bootstrap/cache",
+          "chmod -R ug+rwx storage bootstrap/cache"
+     	],
+	"post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],

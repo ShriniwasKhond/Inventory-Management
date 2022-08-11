@@ -2,8 +2,9 @@
 
 namespace Maatwebsite\Excel;
 
-use Maatwebsite\Excel\Cache\CacheManager;
+use Maatwebsite\Excel\Concerns\WithBackgroundColor;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use Maatwebsite\Excel\Concerns\WithDefaultStyles;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithProperties;
@@ -17,7 +18,10 @@ use Maatwebsite\Excel\Files\TemporaryFileFactory;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
+/** @mixin Spreadsheet */
 class Writer
 {
     use DelegatedMacroable, HasEventBus;
@@ -92,6 +96,32 @@ class Writer
 
         $this->handleDocumentProperties($export);
 
+        if ($export instanceof WithBackgroundColor) {
+            $defaultStyle    = $this->spreadsheet->getDefaultStyle();
+            $backgroundColor = $export->backgroundColor();
+
+            if (is_string($backgroundColor)) {
+                $defaultStyle->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($backgroundColor);
+            }
+
+            if (is_array($backgroundColor)) {
+                $defaultStyle->applyFromArray(['fill' => $backgroundColor]);
+            }
+
+            if ($backgroundColor instanceof Color) {
+                $defaultStyle->getFill()->setFillType(Fill::FILL_SOLID)->setStartColor($backgroundColor);
+            }
+        }
+
+        if ($export instanceof WithDefaultStyles) {
+            $defaultStyle = $this->spreadsheet->getDefaultStyle();
+            $styles       = $export->defaultStyles($defaultStyle);
+
+            if (is_array($styles)) {
+                $defaultStyle->applyFromArray($styles);
+            }
+        }
+
         $this->raise(new BeforeExport($this, $this->exportable));
 
         return $this;
@@ -146,7 +176,6 @@ class Writer
         $this->clearListeners();
         $this->spreadsheet->disconnectWorksheets();
         unset($this->spreadsheet);
-        app(CacheManager::class)->flush();
 
         return $temporaryFile;
     }
