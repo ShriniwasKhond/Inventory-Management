@@ -45,13 +45,13 @@ class ProductImport implements
         foreach ($rows as $row) {
         // dd($row['date']);
         
- // dd($row['uom']);
+  // dd($row['qty']);
           // dd($productDate);
           // $productDate =  date('Y-m-d', strtotime($row['date']));
            // dd($productDate);
 
-           if(!empty($row['tag_no']) && !empty($row['qty'])){
-            
+           if(!empty($row['tag_no'])){
+            // dd(empty($row['qty']));
            // $data['product_date'] = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['date'])->format('Y-m-d');
 
 //            $productDate  = !empty($data['product_date']) ? $data['product_date'] : '';
@@ -68,7 +68,8 @@ class ProductImport implements
                 'asset'        => !empty($row['asset']) ? $row['asset'] : '',
                 'main_category'=> !empty($row['main_category']) ? $row['main_category'] : '',
                 'category'     => !empty($row['sub_category']) ? $row['sub_category'] : '',
-                'qty'          => $row['qty'],
+               // 'qty'          => $row['qty'],
+                'qty'     => !empty($row['qty']) ? $row['qty'] : '0',
                 'uom'          => !empty($row['uom']) ? $row['uom'] : '',
 
             ]);

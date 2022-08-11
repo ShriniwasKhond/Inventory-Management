@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\ProductHistory;
 use Hash;
 use DB;
 
@@ -91,7 +92,28 @@ class UserController extends Controller
         $deleteRecord = User::get_single($id);
         $deleteRecord->delete();
 
+        ProductHistory::where('product_history.user_id','=',$id)->delete();
+
         return redirect()->back()->with('error', 'User successfully deleted!');
     }
 
+    public function user_is_delete($id){
+        $product = DB::table('users')
+                ->select('is_deleted')
+                ->where('id','=',$id)
+                ->first();
+
+        //Check user status
+        if($product->is_deleted == '1'){
+            $status = '0';
+        }else{
+            $status = '1';
+        }
+
+        //update product status
+        $values = array('is_deleted' => $status );
+        DB::table('users')->where('id',$id)->update($values);
+
+        return redirect()->back()->with('success', 'User delete has been updated successfully.!');
+    }
 }

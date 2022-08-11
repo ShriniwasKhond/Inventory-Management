@@ -14,8 +14,11 @@ class APIController extends Controller {
         //email - password
         
         if(!empty($request->email) && !empty($request->password)){
+              $getresultCount = User::where('email', '=', $request->email)->count();
+              if(!empty($getresultCount)){
             $user = User::where('email', '=', $request->email)->first();
 
+           if($user->is_deleted == 0){
             if(!empty($user)){
                 $check = Hash::check($request->password, $user->password);
                 if (!empty($check)) {
@@ -32,7 +35,14 @@ class APIController extends Controller {
                 $json['status'] = 0;
 				$json['message'] = 'You are trying to login with wrong user.';
             }
-           
+        }else{
+            $json['status'] = 0;
+            $json['message'] = 'You are not allowed to do this action because You are blocked by admin.';
+        }
+           }else{
+            $json['status'] = 0;
+            $json['message'] = 'Record not found.';
+        }
         }else{
             $json['status'] = 0;
             $json['message'] = 'Due to some error please try again.';
@@ -106,7 +116,11 @@ class APIController extends Controller {
     public function app_update_quantity(Request $request){
 
          $getresultCount = User::where('id', '=', $request->user_id)->count();
+        
         if(!empty($getresultCount)){
+            $user = User::where('id', '=', $request->user_id)->first();
+
+           if($user->is_deleted == 0){
 
         if (!empty($request->tag_number) && !empty($request->available_qty) && !empty($request->status) && !empty($request->main_category)) {
             //$update_record = Product::find($request->tag_number);
@@ -151,6 +165,10 @@ class APIController extends Controller {
                $json['status'] = 0;
                $json['message'] = 'Parameter missing!';
            }
+           }else{
+            $json['status'] = 0;
+            $json['message'] = 'You are not allowed to do this action because You are blocked by admin.';
+        }
         }else{
             $json['status'] = 0;
             $json['message'] = 'Invalid User';
@@ -193,6 +211,10 @@ class APIController extends Controller {
     public function app_user_update_quantity_history(Request $request){
         $getresultCount = ProductHistory::where('user_id', '=', $request->user_id)->count();
         if(!empty($getresultCount)){
+ $user = User::where('id', '=', $request->user_id)->first();
+
+           if($user->is_deleted == 0){
+
          $result = array();
 
         $getresult = ProductHistory::where('user_id', '=', $request->user_id)->get();
@@ -220,7 +242,12 @@ class APIController extends Controller {
             $json['status'] = 1;
             $json['message'] = 'All data loaded successfully.';
             $json['result']  = $result;
+         }else{
+            $json['status'] = 0;
+            $json['message'] = 'You are not allowed to do this action because You are blocked by admin.';
         }
+        }
+
         else
         {   
             $json['status'] = 0;

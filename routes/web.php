@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\MyAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,7 @@ Route::group(['middleware' => 'admin'], function(){
         Route::get('edit/{id}', [UserController::class, 'user_edit']);
         Route::post('edit/{id}', [UserController::class, 'user_update']);
         Route::get('delete/{id}', [UserController::class, 'user_destroy']);
+        Route::get('status_delete/{id}', [UserController::class, 'user_is_delete']);
     });
     //user end
 
@@ -64,5 +66,12 @@ Route::group(['middleware' => 'admin'], function(){
     });    
     //product end
 
+
+    //admin start
+    Route::prefix('admin/user/myaccount')->group(function () {
+        Route::get('', [MyAccountController::class, 'my_account_index']);
+        Route::post('add', [MyAccountController::class, 'my_account_update']);
+    });  
+    //admin End
 
  });

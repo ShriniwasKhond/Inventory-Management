@@ -25,7 +25,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <div class="panel-title-box">
-                                        <h3>Category Wise Audit Status of Physcial Qty VS Actual Qty</h3>
+                                       {{--  <h3>Category Wise Audit Status of Physcial Qty VS Actual Qty</h3> --}}
                                        
                                     </div>                                    
                                 
@@ -48,25 +48,25 @@
                                                 <tr>
                                                     <td><strong>A</strong></td>
                                                     <td>{{ $getProductCategoryCountA }}</td>
-                                                    <td>{{ $getProductQtyA }}</td>
+                                                     <td>{{ $getProductQtyACount }}</td>
                                                      <td>{{ $getProductQTYAvailableQtyA }}</td>
                                                 </tr>
                                                 <tr>
                                                    <td><strong>B</strong></td>
                                                    <td>{{ $getProductCategoryCountB }}</td>
-                                                     <td>{{ $getProductQtyB }}</td>
+                                                      <td>{{ $getProductQtyBCount }}</td>
                                                      <td>{{ $getProductQTYAvailableQtyB }}</td>
                                                 </tr>                                                
                                                 <tr>
                                                    <td><strong>C</strong></td>
                                                     <td>{{ $getProductCategoryCountC }}</td>
-                                                     <td>{{ $getProductQtyC }}</td>
+                                                     <td>{{ $getProductQtyCCount }}</td>
                                                      <td>{{ $getProductQTYAvailableQtyC }}</td>
                                                 </tr>
                                                 <tr>
                                                       <th colspan="1"> Grand total</th>
                                                       <td><b>{{ $getProductCategoryCountTotal }}</b></td>
-                                                        <td><b>{{ $getProductQTYAvailableQtyTotalSUM }}</b></td>
+                                                       <td><b>{{ $getProductQtyTotalCount }}</b></td>
                                                      <td><b>{{ $getProductQTYAvailableQtyTotal }}</b></td>
                                                 </tr>
                                                
@@ -87,7 +87,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <div class="panel-title-box">
-                                        <h3>Auditor Wise Audit Status of Physcial Qty VS Actual Qty</h3>
+                                      {{--   <h3>Auditor Wise Audit Status of Physcial Qty VS Actual Qty</h3> --}}
                                         
                                     </div>                                    
                                 
@@ -108,14 +108,15 @@
                                                 <tr>
                                                     <td><strong>A</strong></td>
                                                        <td>{{ $getProductCategoryA }}</td>
-                                                   <td>{{ $getProductQtyACount }}</td>
-                                                    
+                                                  
+                                                    <td>{{ $getProductQtyA }}</td>
                                                    
                                                 </tr>
                                                 <tr>
                                                     <td><strong>B</strong></td>
                                                     <td>{{ $getProductCategoryB }}</td>
-                                                   <td>{{ $getProductQtyBCount }}</td>
+                                                
+                                                     <td>{{ $getProductQtyB }}</td>
                                                    
                                                      
                                                   
@@ -123,8 +124,8 @@
                                                 <tr>
                                                     <td><strong>C</strong></td>
                                                     <td>{{ $getProductCategoryC }}</td>
-                                                    <td>{{ $getProductQtyCCount }}</td>
-                                                  
+                                                   
+                                                   <td>{{ $getProductQtyC }}</td>
                                                         
                                                    
                                                 </tr>
@@ -132,9 +133,9 @@
                                                <tr>
                                               <th colspan="1"> Grand total</th>
                                                  <td><b>{{ $getProductQTYTotal }}</b></td>
-                                                 <td><b>{{ $getProductQtyTotalCount }}</b></td>
+                                              
                                                  
-                                                   
+                                                      <td><b>{{ $getProductQTYAvailableQtyTotalSUM }}</b></td> 
                                                </tr>                                          
                                             
                                             </tbody>

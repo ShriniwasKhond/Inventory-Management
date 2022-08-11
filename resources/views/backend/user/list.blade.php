@@ -25,6 +25,8 @@
                 <a href="{{ url('admin/user/add') }}" class="btn btn-primary" title="Add New User"><i class="fa fa-plus"></i>&nbsp;&nbsp;<span class="bold">Add New User</span></a> 
                 {{-- End --}}
 
+                 <a href="{{ url('admin/user/myaccount') }}" class="btn btn-primary" title="Admin Password Change"><i class="fa fa-plus"></i>&nbsp;&nbsp;<span class="bold">Admin Password Change</span></a> 
+
                     {{-- Search Box Start --}}
             <div class="panel panel-default">
                   <div class="panel-heading">
@@ -76,6 +78,7 @@
                               <th>Name</th>
                               <th>Email ID</th>
                                <th>Password</th> 
+                                <th>Block / Unblock</th>
                               <th>Action</th>
                           </tr>
                       </thead>
@@ -89,9 +92,22 @@
                               <td>
                                 {{-- <a class="btn btn-primary btn-rounded btn-sm" id="viewUser" data-toggle="modal" data-target="#modal-id" data-id="{{ $value->password_show }}"><span class="fa fa-eye"></span></a> --}}
 
-                                 <a href="{{ url('admin/user/edit/'.$value->id) }}" class="btn btn-success btn-rounded btn-sm"><span class="fa fa-pencil"></span></a> 
+                                 
+
+                                <?php if($value->is_deleted == '0'){ ?> 
+
+                                    <a href="{{url('admin/user/status_delete',$value->id)}}" class="btn btn-success">Block</a>
+
+                                <?php }else{ ?> 
+                               
+                                    <a href="{{url('admin/user/status_delete',$value->id)}}" class="btn btn-danger">  Unblock</a>
+                               
+                                <?php } ?>
+                              </td>
+                              <td>
+                                <a href="{{ url('admin/user/edit/'.$value->id) }}" class="btn btn-success btn-rounded btn-sm"><span class="fa fa-pencil"></span></a> 
                         
-     						                <button class="btn btn-danger btn-rounded btn-sm" onClick="delete_record('{{ url('admin/user/delete/'.$value->id) }}');"><span class="fa fa-trash-o"></span></button> 
+                              {{--   <button class="btn btn-danger btn-rounded btn-sm" onClick="delete_record('{{ url('admin/user/delete/'.$value->id) }}');"><span class="fa fa-trash-o"></span></button>  --}}
                    
                               </td>
                           </tr>

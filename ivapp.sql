@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 21, 2021 at 05:31 PM
+-- Generation Time: Dec 27, 2021 at 05:19 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.24
 
@@ -99,23 +99,20 @@ CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `user_id` varchar(255) DEFAULT NULL,
   `sheet_no` varchar(255) DEFAULT NULL,
-  `product_date` date DEFAULT NULL,
+  `product_date` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `sub_location` varchar(255) DEFAULT NULL,
+  `item_code` varchar(255) DEFAULT NULL,
   `asset` varchar(255) DEFAULT NULL,
-  `qty` varchar(255) DEFAULT NULL,
+  `main_category` varchar(255) DEFAULT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `qty` varchar(255) DEFAULT '0',
+  `uom` varchar(255) DEFAULT NULL,
   `available_qty` varchar(255) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `product`
---
-
-INSERT INTO `product` (`id`, `user_id`, `sheet_no`, `product_date`, `location`, `sub_location`, `asset`, `qty`, `available_qty`, `status`, `created_at`, `updated_at`) VALUES
-(1, '1', '100011', '2021-12-14', 'Suerat', 'katsrgam', 'ajjj', '10', '10', 1, '2021-12-16 20:08:34', '2021-12-16 21:03:37');
 
 -- --------------------------------------------------------
 
@@ -131,14 +128,6 @@ CREATE TABLE `product_history` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `product_history`
---
-
-INSERT INTO `product_history` (`id`, `user_id`, `product_id`, `available_qty`, `created_at`, `updated_at`) VALUES
-(2, '1', '1', '10', '2021-12-18 15:54:25', '2021-12-18 06:57:25'),
-(3, '1', '1', '10', '2021-12-18 15:54:25', '2021-12-18 06:57:25');
 
 -- --------------------------------------------------------
 
@@ -166,10 +155,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `password_show`, `remember_token`, `token`, `is_admin`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'ivapp', 'ivapp@gmail.com', '2021-12-13 07:55:31', '$2y$10$txBavgibuM/sKU4bx15lYuTjoFoMw2EOCBiBYgOswYggbxH6zP5fy', '123456789', '7GJyi7b00lJXWRjyQzNk2POiRSPvpjcQAkXkWOM2uIhlJv2rLLkRqnPtOopD', NULL, 1, 0, '2021-12-13 06:52:31', '2021-12-13 00:51:17'),
-(3, 'hello', 'hello@gmail.com', NULL, '$2y$10$MzowJquoVGJI0lv0sVEbQeA6JKSraBDnPEZe7sM2NmOf2jCAn0zuq', '123456789', NULL, NULL, 0, 0, '2021-12-13 20:31:10', '2021-12-13 20:31:10'),
-(5, 'superadmin', 'superadmin@gmail.com', NULL, '$2y$10$0otmxKddaaxz3WZOwVEUruJX8d9B1KRAV/TcdOx4WuSEPUDJUJDqK', '132465', NULL, NULL, 0, 0, '2021-12-14 20:26:24', '2021-12-14 20:26:24'),
-(6, 'vipull', 'vipul@gmail.com', NULL, '$2y$10$kcM5zM5hbOHozI78Xk2v0OurVHg2lPHvLiAumzE6gTPwvdCUi78Nu', '111', NULL, NULL, 0, 0, '2021-12-15 10:30:06', '2021-12-15 10:31:24');
+(1, 'ivapp', 'ivapp@gmail.com', '2021-12-13 07:55:31', '$2y$10$txBavgibuM/sKU4bx15lYuTjoFoMw2EOCBiBYgOswYggbxH6zP5fy', '123456789', '2UJeLcVSiY0bRjYBdE13NfkXqrCgqdLjeocvvpFwJdROYkV49SWhz49WCe1z', NULL, 1, 0, '2021-12-13 06:52:31', '2021-12-13 00:51:17');
 
 --
 -- Indexes for dumped tables
@@ -246,19 +232,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_history`
 --
 ALTER TABLE `product_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

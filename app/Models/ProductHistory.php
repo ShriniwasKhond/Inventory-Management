@@ -30,6 +30,11 @@ class ProductHistory extends Model
                     ->join('users', 'users.id', '=', 'product_history.user_id')
                     ->join('product', 'product.id', '=', 'product_history.product_id')
                     ->get()->toArray();
+                    //last ma change se 
+                    // ->get()->toArray();
+                    // ->toSql();
+                    //dd($Decoration);
+
         return $Decoration;
     }
 
