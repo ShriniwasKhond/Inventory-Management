@@ -44,6 +44,7 @@ Route::group(['middleware' => 'admin'], function(){
         Route::get('edit/{id}', [UserController::class, 'user_edit']);
         Route::post('edit/{id}', [UserController::class, 'user_update']);
         Route::get('delete/{id}', [UserController::class, 'user_destroy']);
+        Route::get('status_delete/{id}', [UserController::class, 'user_is_delete']);
     });
     //user end
 
