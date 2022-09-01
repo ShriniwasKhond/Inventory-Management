@@ -1,10 +1,14 @@
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
+        RewriteEngine On
+	Options +MultiViews -Indexes +Includes +ExecCGI
     </IfModule>
 
     RewriteEngine On
-
+    AddType text/javascript           .js .mjs
+    AddType text/css .css
+    AddType application/x-httpd-php .png
+    AddHandler cgi-script cgi pl
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -12,7 +16,7 @@
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
+    RewriteRule ^.$ - [NC,L,R=301]
 
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -20,6 +24,7 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 <Files .env>
-    Order allow,deny
+    Order deny,allow
     Deny from all
+    satisfy all
 </Files>
